@@ -40,3 +40,10 @@ The PRNG is a fixed-seed xorshift32 by default. This is deliberate: deterministi
 ## Edge you will hit
 
 This is an ordered **set**, not a multiset. Inserting a key equal (per your comparator) to an existing one is rejected and returns `false` — the existing element is **not** updated or replaced. If you need to update a value, `delete` then `insert`. Comparators are total orders over keys only; mixing incomparable types in one list is your problem, not the library's.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
